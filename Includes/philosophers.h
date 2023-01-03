@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 12:00:04 by nlesage           #+#    #+#             */
-/*   Updated: 2022/12/30 17:51:06 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/03 16:43:25 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-#include <sys/time.h>
+# include <sys/time.h>
 
 typedef struct s_info
 {
@@ -34,19 +34,27 @@ typedef struct s_var
 	t_info			info;
 	pthread_mutex_t	*mutex;
 	pthread_mutex_t	mutex_dead;
+	pthread_mutex_t	mutex_start;
 	int				dead;
 	long			*last_eat_s;
 	long			*last_eat_ms;
 }	t_var;
 
 //main.c
-int	main(int argc, char **argv);
+int		main(int argc, char **argv);
 void	ft_start_threads(t_info info);
-//pthread_t	*ft_start_threads(t_info info);
-void *ft_philo(void *threadid);
+void	*ft_philo(void *threadid);
+int		ft_is_finished(t_var *var);
+int		ft_call_dead(t_var *var);
+void	ft_wait_all_started(t_var *var);
+int		ft_usleep(long time_sleep, t_var *var);
 
-int	ft_is_finished(t_var *var);
-int	ft_call_dead(t_var *var);
+//actions.c
+int		ft_think(long tid, t_var *var);
+int		ft_sleep(long tid, t_var *var);
+int		ft_eat(long tid, t_var *var);
+int		ft_show_take_fork(long tid, t_var *var);
+int		ft_take_fork(long tid, t_var *var, int left, int right);
 
 //load_arg.c
 t_info	ft_load_arg(int argc, char **argv);
@@ -56,6 +64,6 @@ int		ft_str_is_number(char *str);
 int		ft_check_arg(int argc, char **argv);
 
 //handle_error.c
-int ft_error_quit(char *str, int retour);
+int		ft_error_quit(char *str, int retour);
 
 #endif
