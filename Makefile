@@ -6,14 +6,15 @@
 #    By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/27 15:49:33 by nlesage           #+#    #+#              #
-#    Updated: 2023/01/03 11:55:18 by nlesage          ###   ########.fr        #
+#    Updated: 2023/01/04 18:48:46 by nlesage          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS		= main.c \
 				handle_error.c \
 				load_arg.c \
-				actions.c
+				actions.c \
+				philo.c
 
 SRCS_BONUS	= ${SRCS}
 
@@ -23,7 +24,7 @@ NAME_BO		= bon
 
 HEADERS		= Includes/
 
-FLAGS		= -Wall -Wextra -Werror -pthread
+FLAGS		= -Wall -Wextra -Werror -pthread #-fsanitize=thread -g
 
 OBJS		= ${SRCS:.c=.o}
 

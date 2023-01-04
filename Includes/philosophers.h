@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 12:00:04 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/03 16:43:25 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/04 18:49:51 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_var
 	pthread_mutex_t	*mutex;
 	pthread_mutex_t	mutex_dead;
 	pthread_mutex_t	mutex_start;
+	pthread_mutex_t	mutex_tab_eat;
 	int				dead;
 	long			*last_eat_s;
 	long			*last_eat_ms;
@@ -43,11 +44,13 @@ typedef struct s_var
 //main.c
 int		main(int argc, char **argv);
 void	ft_start_threads(t_info info);
+
+//philo.c
 void	*ft_philo(void *threadid);
+int		ft_usleep(long time_sleep, t_var *var, long tid);
 int		ft_is_finished(t_var *var);
-int		ft_call_dead(t_var *var);
+int		ft_is_dead(t_var *var, long tid);
 void	ft_wait_all_started(t_var *var);
-int		ft_usleep(long time_sleep, t_var *var);
 
 //actions.c
 int		ft_think(long tid, t_var *var);
@@ -65,5 +68,6 @@ int		ft_check_arg(int argc, char **argv);
 
 //handle_error.c
 int		ft_error_quit(char *str, int retour);
+void	ft_handle_one_phil(long tid, t_var *var);
 
 #endif
