@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:51:31 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/04 18:47:05 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/05 12:09:11 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int	ft_eat(long tid, t_var *var)
 		printf("%ld%03ld %ld is eating\n", t.tv_sec, t.tv_usec / 1000, tid + 1);
 		pthread_mutex_unlock(&var->mutex_start);
 		ft_usleep(var->info.time_eat * 1, var, tid);
+		pthread_mutex_lock(&var->mutex_tab_nb_eat);
+		var->tab_nb_eat[tid] = var->tab_nb_eat[tid] + 1;
+		pthread_mutex_unlock(&var->mutex_tab_nb_eat);
 	}
 	else
 		return (1);

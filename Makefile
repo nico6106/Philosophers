@@ -6,7 +6,7 @@
 #    By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/27 15:49:33 by nlesage           #+#    #+#              #
-#    Updated: 2023/01/04 18:48:46 by nlesage          ###   ########.fr        #
+#    Updated: 2023/01/05 16:56:21 by nlesage          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ NAME_BO		= bon
 
 HEADERS		= Includes/
 
-FLAGS		= -Wall -Wextra -Werror -pthread #-fsanitize=thread -g
+FLAGS		= -Wall -Wextra -Werror -pthread -g #-fsanitize=thread -g
 
 OBJS		= ${SRCS:.c=.o}
 

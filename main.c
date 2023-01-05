@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:59:50 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/04 18:51:22 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/05 17:01:26 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,16 @@ void	ft_start_threads(t_info info)
 	if (!var.mutex)
 		i = 0; //return (error)
 
+	var.tab_nb_eat = malloc(info.nb_philo * sizeof(int));
+	if (!var.tab_nb_eat)
+		i = 0;
+	pthread_mutex_init(&var.mutex_tab_nb_eat, NULL);
+	pthread_mutex_lock(&var.mutex_tab_nb_eat);
+	i = -1;
+	while (++i < info.nb_philo)
+		var.tab_nb_eat[i] = 0;
+	pthread_mutex_unlock(&var.mutex_tab_nb_eat);
+	
 	var.info = info;
 	pthread_mutex_init(&var.mutex_dead, NULL);
 	pthread_mutex_lock(&var.mutex_dead);
@@ -62,7 +72,11 @@ void	ft_start_threads(t_info info)
 	i = 0;
 	while (i < info.nb_philo)
 	{
+		/*t*/
+		pthread_mutex_lock(&var.mutex_dead);
 		var.tid = i;
+		pthread_mutex_unlock(&var.mutex_dead);
+		/*implementer ici un mutex pour verifier le var.tid (lock - unlock + meme chose dans le philo)*/
 		rc = pthread_create(&(threads[i]), NULL, ft_philo, &var);
 		if (rc)
 		{
@@ -105,11 +119,14 @@ void	ft_start_threads(t_info info)
 	pthread_mutex_destroy(&var.mutex_dead);
 	pthread_mutex_destroy(&var.mutex_start);
 	pthread_mutex_destroy(&var.mutex_tab_eat);
+	pthread_mutex_destroy(&var.mutex_tab_nb_eat);
 	
 	free(threads);
 	free(var.last_eat_s);
 	free(var.last_eat_ms);
 	free(var.mutex);
+	free(var.tab_nb_eat);
+	
 	//return (NULL);
 }
 

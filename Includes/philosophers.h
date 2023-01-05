@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 12:00:04 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/04 18:49:51 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/05 12:45:32 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,11 @@ typedef struct s_var
 	pthread_mutex_t	mutex_dead;
 	pthread_mutex_t	mutex_start;
 	pthread_mutex_t	mutex_tab_eat;
+	pthread_mutex_t	mutex_tab_nb_eat;
 	int				dead;
 	long			*last_eat_s;
 	long			*last_eat_ms;
+	int				*tab_nb_eat;
 }	t_var;
 
 //main.c
@@ -51,6 +53,9 @@ int		ft_usleep(long time_sleep, t_var *var, long tid);
 int		ft_is_finished(t_var *var);
 int		ft_is_dead(t_var *var, long tid);
 void	ft_wait_all_started(t_var *var);
+
+int	ft_call_dead(t_var *var);
+int	ft_finished(t_var *var);
 
 //actions.c
 int		ft_think(long tid, t_var *var);
