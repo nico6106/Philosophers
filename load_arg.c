@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 12:20:23 by nlesage           #+#    #+#             */
-/*   Updated: 2022/12/28 13:19:37 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/06 19:32:02 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,20 @@ t_info	ft_import_arg(int argc, char **argv)
 {
 	t_info	info;
 
-	info.nb_philo = ft_atoi(argv[1]);
-	info.time_die = ft_atoi(argv[2]);
-	info.time_eat = ft_atoi(argv[3]);
-	info.time_sleep = ft_atoi(argv[4]);
+	info.nb_philo = ft_return_arg(argv[1]);
+	info.time_die = ft_return_arg(argv[2]);
+	info.time_eat = ft_return_arg(argv[3]);
+	info.time_sleep = ft_return_arg(argv[4]);
 	if (argc == 6)
-		info.nb_eat = ft_atoi(argv[5]);
+		info.nb_eat = ft_return_arg(argv[5]);
 	else
 		info.nb_eat = -1;
+	if (info.nb_philo == -2 || info.time_die == -2 || info.time_eat == -2
+		|| info.time_sleep == -2 || info.nb_eat == -2)
+	{
+		info.nb_philo = -1;
+		ft_error_quit("Wrong format for the arguments\n", 1);
+	}
 	return (info);
 }
 
@@ -58,11 +64,11 @@ int	ft_check_arg(int argc, char **argv)
 	return (1);
 }
 
-int	ft_atoi(const char *nptr)
+long	ft_atoi(const char *nptr)
 {
-	int	i;
-	int	number;
-	int	sign;
+	int		i;
+	long	number;
+	int		sign;
 
 	i = 0;
 	number = 0;

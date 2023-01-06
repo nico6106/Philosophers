@@ -6,7 +6,7 @@
 #    By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/27 15:49:33 by nlesage           #+#    #+#              #
-#    Updated: 2023/01/05 16:56:21 by nlesage          ###   ########.fr        #
+#    Updated: 2023/01/06 16:56:23 by nlesage          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ SRCS		= main.c \
 				handle_error.c \
 				load_arg.c \
 				actions.c \
-				philo.c
+				philo.c \
+				utils.c \
+				handle_end.c
 
 SRCS_BONUS	= ${SRCS}
 

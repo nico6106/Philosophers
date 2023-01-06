@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 11:59:50 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/05 17:01:26 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/06 18:24:08 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,9 @@ void	ft_start_threads(t_info info)
 	i = 0;
 	while (i < info.nb_philo)
 	{
-		/*t*/
 		pthread_mutex_lock(&var.mutex_dead);
 		var.tid = i;
 		pthread_mutex_unlock(&var.mutex_dead);
-		/*implementer ici un mutex pour verifier le var.tid (lock - unlock + meme chose dans le philo)*/
 		rc = pthread_create(&(threads[i]), NULL, ft_philo, &var);
 		if (rc)
 		{
@@ -97,13 +95,16 @@ void	ft_start_threads(t_info info)
 		var.last_eat_ms[i] = current_time.tv_usec / 1;
 		i++;
 	}
+	var.time_start_s = current_time.tv_sec;
+	var.time_start_ms= current_time.tv_usec;
 	pthread_mutex_unlock(&var.mutex_tab_eat);	
 
 	pthread_mutex_unlock(&var.mutex_start);	
 	
 	while (ft_is_finished(&var) == 0)
 	{
-		ft_usleep(1000, &var, 0);
+		usleep(1000);
+		ft_call_dead(&var);
 	}
 
 	i = -1;
