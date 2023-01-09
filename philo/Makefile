@@ -6,31 +6,30 @@
 #    By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/27 15:49:33 by nlesage           #+#    #+#              #
-#    Updated: 2023/01/06 16:56:23 by nlesage          ###   ########.fr        #
+#    Updated: 2023/01/09 17:41:47 by nlesage          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS		= main.c \
 				handle_error.c \
 				load_arg.c \
+				start_threads.c \
 				actions.c \
+				actions2.c \
 				philo.c \
 				utils.c \
-				handle_end.c
+				handle_end.c \
+				free_and_finish.c
 
 SRCS_BONUS	= ${SRCS}
 
 NAME		= philo
-
-NAME_BO		= bon
 
 HEADERS		= Includes/
 
 FLAGS		= -Wall -Wextra -Werror -pthread -g #-fsanitize=thread -g
 
 OBJS		= ${SRCS:.c=.o}
-
-OBJS_BONUS	= ${SRCS_BONUS:.c=.o}
 
 CC			= cc
 
@@ -42,17 +41,12 @@ all:		${NAME}
 ${NAME}:	${OBJS}
 			${CC} ${FLAGS} -I${HEADERS} -o ${NAME} ${OBJS}
 
-${NAME_BO}:	${OBJS}
-			${CC} ${FLAGS} -I${HEADERS} -o ${NAME_BO} ${OBJS}
-			
-bonus:		${NAME_BO}
-
 clean:		
-			rm -f ${OBJS} ${OBJS_BONUS}
+			rm -f ${OBJS}
 
 fclean:		clean
-			rm -f ${NAME} ${NAME_BO}
+			rm -f ${NAME}
 
 re:			fclean all
 
-.PHONY:		clean, fclean, re, bonus, all
+.PHONY:		clean, fclean, re, all

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_end.c                                       :+:      :+:    :+:   */
+/*   handle_end_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 16:55:35 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/06 19:10:10 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/09 17:42:32 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Includes/philosophers.h"
+#include "Includes/philosophers_bonus.h"
 
 int	ft_is_finished(t_var *var)
 {

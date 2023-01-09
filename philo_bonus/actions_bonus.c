@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   actions_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:51:31 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/06 19:32:29 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/09 17:42:25 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Includes/philosophers.h"
+#include "Includes/philosophers_bonus.h"
 
 void	ft_eat(long tid, t_var *var)
 {

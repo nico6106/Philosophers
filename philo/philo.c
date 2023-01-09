@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 18:48:31 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/06 19:30:39 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/09 10:40:38 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,12 @@ void	*ft_philo(void *arg)
 	{
 		ft_take_fork(philo.tid, var, philo.left, philo.right);
 		ft_eat(philo.tid, var);
-		pthread_mutex_unlock(&var->mutex[philo.left]);
-		pthread_mutex_unlock(&var->mutex[philo.right]);
+		ft_unlock_fork(var, philo);
 		if (ft_finished(var) == 1)
 			return (NULL);
 		ft_sleep(philo.tid, var);
 		ft_think(philo.tid, var);
-		if (var->info.nb_philo % 2 == 1)
-			ft_usleep(ft_compute_time(var), var, philo.tid);
+		ft_wait_odd(var, philo.tid);
 	}
 	return (NULL);
 }

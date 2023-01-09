@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:58:52 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/06 19:34:02 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/09 17:42:42 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Includes/philosophers.h"
+#include "Includes/philosophers_bonus.h"
 
 int	ft_compute_time(t_var *var)
 {
@@ -18,7 +18,7 @@ int	ft_compute_time(t_var *var)
 
 	diff = var->info.time_sleep - var->info.time_eat;
 	if (diff <= 0)
-		return (var->info.time_eat - var->info.time_sleep); //(var->info.time_eat / 2 + 1);
+		return (var->info.time_eat - var->info.time_sleep);
 	return (0);
 }
 
