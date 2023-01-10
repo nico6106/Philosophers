@@ -5,72 +5,70 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/04 18:48:31 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/09 17:42:39 by nlesage          ###   ########.fr       */
+/*   Created: 2023/01/10 13:56:31 by nlesage           #+#    #+#             */
+/*   Updated: 2023/01/10 19:28:19 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/philosophers_bonus.h"
 
-void	*ft_philo(void *arg)
+int	ft_philo(t_var *var)
 {
-	t_var	*var;
-	t_philo	philo;
+	//t_philo	philo;
+	//int	i=0;
 
-	var = (t_var *) arg;
-	philo = ft_init_philo(var);
-	if (philo.left == -1)
-		return (NULL);
+	//philo = ft_init_philo(var);
+	//if (philo.left == -1)
+	//	return (NULL);
 	ft_wait_all_started(var);
-	if (var->info.nb_philo == 1)
-		ft_handle_one_phil(philo.tid, var);
-	ft_think(philo.tid, var);
-	if (philo.tid % 2 == 1)
-		ft_usleep(var->info.time_eat, var, philo.tid);
-	while (ft_is_finished(var) == 0 && ft_finished(var) == 0)
+	//if (var->info.nb_philo == 1)
+	//	ft_handle_one_phil(philo.tid, var);
+	ft_think(var->num_philo, var);
+	if (var->num_philo % 2 == 1)
+		ft_usleep(var->info.time_eat, var);
+	///*
+	while (ft_check_death(var) == 0) //ft_is_finished(var) == 0 && ft_finished(var) == 0)
 	{
-		ft_take_fork(philo.tid, var, philo.left, philo.right);
-		ft_eat(philo.tid, var);
-		ft_unlock_fork(var, philo);
-		if (ft_finished(var) == 1)
-			return (NULL);
-		ft_sleep(philo.tid, var);
-		ft_think(philo.tid, var);
-		ft_wait_odd(var, philo.tid);
+		ft_take_fork(var->num_philo, var);
+		ft_eat(var->num_philo, var);
+		ft_unlock_fork(var);
+		if (var->nb_eat == var->info.nb_eat + 0 && var->nb_eat != -1)
+			break ;
+		//if (ft_finished(var) == 1)
+		//	return (NULL);
+		ft_sleep(var->num_philo, var);
+		ft_think(var->num_philo, var);
+		//ft_wait_odd(var, philo.tid);
+		
 	}
-	return (NULL);
+	//*/
+	return (0);
 }
 
-t_philo	ft_init_philo(t_var *var)
+void	ft_wait_all_started(t_var *var)
 {
-	t_philo	philo;
+	struct timeval	current_time;
 
-	if (pthread_mutex_lock(&var->mutex_dead) != 0)
-	{
+	if (sem_wait(var->sem.run) != 0)
 		ft_exit(var);
-		philo.left = -1;
-		return (philo);
-	}
-	philo.tid = var->tid;
-	if (pthread_mutex_unlock(&var->mutex_dead) != 0)
-	{
+	if (sem_post(var->sem.run) != 0)
 		ft_exit(var);
-		philo.left = -1;
-		return (philo);
-	}
-	philo.left = philo.tid;
-	philo.right = (philo.tid + 1) % var->info.nb_philo;
-	return (philo);
+	gettimeofday(&current_time, NULL);
+	var->time_start_s = current_time.tv_sec;
+	var->time_start_ms = current_time.tv_usec;
+	var->last_eat_s = current_time.tv_sec;
+	var->last_eat_ms = current_time.tv_usec;
+	//printf("%ld: s=%ld ms=%ld\n", var->num_philo+1, var->time_start_s, var->time_start_ms);
 }
 
-int	ft_usleep(long time_sleep, t_var *var, long tid)
+int	ft_usleep(long time_sleep, t_var *var)
 {
 	struct timeval	t;
 	struct timeval	rt;
 	long			pass;
 	int				check;
 
-	(void) tid;
+	(void) var;
 	gettimeofday(&rt, NULL);
 	gettimeofday(&t, NULL);
 	pass = (t.tv_sec - rt.tv_sec) * 1000000 + (t.tv_usec - rt.tv_usec);
@@ -81,10 +79,10 @@ int	ft_usleep(long time_sleep, t_var *var, long tid)
 		pass = (t.tv_sec - rt.tv_sec) * 1000000 + (t.tv_usec - rt.tv_usec);
 		if (pass > 5 * check * 1000)
 		{
-			if (ft_is_finished(var) == 1)
+			if (ft_check_death(var) == 1)
 				return (1);
-			else if (ft_finished(var) == 1)
-				return (1);
+			//else if (ft_finished(var) == 1)
+			//	return (1);
 			check++;
 		}
 		usleep(500);
@@ -92,10 +90,30 @@ int	ft_usleep(long time_sleep, t_var *var, long tid)
 	return (0);
 }
 
-void	ft_wait_all_started(t_var *var)
+int	ft_check_death(t_var *var)
 {
-	if (pthread_mutex_lock(&var->mutex_start) != 0)
-		ft_exit(var);
-	if (pthread_mutex_unlock(&var->mutex_start) != 0)
-		ft_exit(var);
+	long			pass;
+	struct timeval	t;
+
+	if (var->death != 0)
+		return (1);
+	if (var->nb_eat >= var->info.nb_eat + 0 && var->info.nb_eat != -1)
+		return (1);
+	gettimeofday(&t, NULL);
+	pass = (t.tv_sec - var->last_eat_s) * 1000000 + (t.tv_usec - var->last_eat_ms);
+	if (pass > (long) var->info.time_die * 1000 && var->death == 0)
+	{
+		//printf("time_die=%d, pass=%ld\n", var->info.time_die, pass);
+		if (sem_wait(var->sem.ecrire) != 0)
+			ft_exit(var);
+		
+		pass = ft_time_elapsed(var, t.tv_sec, t.tv_usec);
+		printf("%ld %ld died\n", pass, var->num_philo + 1);
+		
+		//if (sem_post(var->sem.ecrire) != 0)
+		//	ft_exit(var);
+		var->death = 1;
+		return (1);
+	}
+	return (0);
 }

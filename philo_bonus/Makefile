@@ -6,20 +6,17 @@
 #    By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/27 15:49:33 by nlesage           #+#    #+#              #
-#    Updated: 2023/01/09 17:41:42 by nlesage          ###   ########.fr        #
+#    Updated: 2023/01/10 15:23:52 by nlesage          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS		= main_bonus.c \
-				handle_error_bonus.c \
 				load_arg_bonus.c \
-				start_threads_bonus.c \
-				actions_bonus.c \
-				actions2_bonus.c \
-				philo_bonus.c \
+				handle_error_bonus.c \
 				utils_bonus.c \
-				handle_end_bonus.c \
-				free_and_finish_bonus.c
+				init_bonus.c \
+				action_bonus.c \
+				philo_bonus.c
 
 SRCS_BONUS	= ${SRCS}
 

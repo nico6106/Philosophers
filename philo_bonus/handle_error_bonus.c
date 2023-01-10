@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 12:19:42 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/09 17:42:34 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/10 19:07:26 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,27 @@ int	ft_error_quit(char *str, int retour)
 	return (retour);
 }
 
+int	ft_call_error(t_var *var)
+{
+	//(void) var;
+	ft_end_philo(var);
+	printf("erreur\n");
+	if (var->num_philo == 0)
+		var->num_philo = -1;
+	exit (var->num_philo);
+}
+
+int	ft_exit(t_var *var)
+{
+	//(void) var;
+	ft_end_philo(var);
+	printf("erreur\n");
+	if (var->num_philo == 0)
+		var->num_philo = -1;
+	exit (var->num_philo);
+}
+
+/*
 void	ft_handle_one_phil(long tid, t_var *var)
 {
 	struct timeval	t;
@@ -45,7 +66,10 @@ void	ft_handle_one_phil(long tid, t_var *var)
 	gettimeofday(&t, NULL);
 	printf("%ld%03ld %ld died\n", t.tv_sec, t.tv_usec / 1000, tid + 1);
 }
+*/
 
+
+/*
 int	ft_handle_thread_creation_error(t_var *var, pthread_t *threads, int i)
 {
 	if (pthread_mutex_lock(&var->mutex_dead) != 0)
@@ -58,7 +82,9 @@ int	ft_handle_thread_creation_error(t_var *var, pthread_t *threads, int i)
 	ft_kill_threads(threads, i);
 	return (ft_error_quit("Error from pthread_create\n", 1));
 }
+*/
 
+/*
 void	ft_exit(t_var *var)
 {
 	int	treat;
@@ -79,7 +105,9 @@ void	ft_exit(t_var *var)
 	if (pthread_mutex_unlock(&var->mutex_start) != 0)
 		return ;
 }
+*/
 
+/*
 void	ft_kill_threads(pthread_t *threads, int n)
 {
 	int	i;
@@ -93,3 +121,4 @@ void	ft_kill_threads(pthread_t *threads, int n)
 		usleep(1000);
 	}
 }
+*/

@@ -6,12 +6,13 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:58:52 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/09 17:42:42 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/10 15:19:14 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/philosophers_bonus.h"
 
+/*
 int	ft_compute_time(t_var *var)
 {
 	int	diff;
@@ -21,6 +22,7 @@ int	ft_compute_time(t_var *var)
 		return (var->info.time_eat - var->info.time_sleep);
 	return (0);
 }
+*/
 
 long	ft_time_elapsed(t_var *var, long sec, long us)
 {
