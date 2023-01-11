@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 12:00:04 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/10 18:42:34 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/11 18:44:30 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 # define TAKE "/take"
 # define ECRIRE "/ecrire"
 # define RUN "/run"
+# define NB_EAT "/nbeat"
+# define ADMIN "/admin"
+# define START "/start"
+# define HOLD "/hold"
 
 typedef struct s_info
 {
@@ -46,6 +50,16 @@ typedef struct s_sema
 	sem_t	*ecrire;
 	sem_t	*take;
 	sem_t	*run;
+	sem_t	*s_nb_eat;
+	sem_t	*admin;
+	sem_t	*start;
+	sem_t	*hold;
+
+	sem_t	*bis_fourchettes;
+	sem_t	*bis_ecrire;
+	sem_t	*bis_take;
+	sem_t	*bis_s_nb_eat;
+	sem_t	*bis_start;
 }	t_sema;
 
 typedef struct s_var
@@ -60,6 +74,9 @@ typedef struct s_var
 	long	last_eat_ms;
 	int		nb_eat;
 	int		death;
+	int		end_simulation;
+	int		start;
+	pthread_t	check_death;
 }	t_var;
 
 //main.c
@@ -68,7 +85,7 @@ void	ft_start_philo(t_info info);
 
 int	ft_end_pgrm(t_var *var);
 int	ft_end_philo(t_var *var);
-int	ft_handle_end(t_var *var, int val);
+int	ft_handle_end(t_var *var, int val, int pid_end);
 
 //load_arg.c
 t_info	ft_load_arg(int argc, char **argv);
@@ -80,11 +97,14 @@ int		ft_check_arg(int argc, char **argv);
 //utils.c
 int		ft_return_arg(char *argv);
 long	ft_time_elapsed(t_var *var, long sec, long us);
+void	ft_wait_odd(t_var *var);
+int	ft_compute_time(t_var *var);
 
 //handle_error.c
 int		ft_error_quit(char *str, int retour);
 int	ft_call_error(t_var *var);
 int	ft_exit(t_var *var);
+int	ft_handle_one_phil(long tid, t_var *var);
 
 //init_bonus.c
 int		ft_init_sem(t_var *var, t_info info);
@@ -98,6 +118,7 @@ int		ft_philo(t_var *var);
 void	ft_wait_all_started(t_var *var);
 int	ft_usleep(long time_sleep, t_var *var);
 int	ft_check_death(t_var *var);
+void	*ft_thread_death(void *arg);
 
 //action_bonus.c
 int	ft_think(long tid, t_var *var);
@@ -107,5 +128,9 @@ int	ft_unlock_fork(t_var *var);
 
 void	ft_eat(long tid, t_var *var);
 int	ft_sleep(long tid, t_var *var);
+
+//threads_check_bonus.c
+void	*ft_check_nb_eat(void *arg);
+int	ft_check_start(t_var *var);
 
 #endif

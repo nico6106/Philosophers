@@ -6,7 +6,7 @@
 #    By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/27 15:49:33 by nlesage           #+#    #+#              #
-#    Updated: 2023/01/10 15:23:52 by nlesage          ###   ########.fr        #
+#    Updated: 2023/01/11 10:18:52 by nlesage          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ SRCS		= main_bonus.c \
 				utils_bonus.c \
 				init_bonus.c \
 				action_bonus.c \
-				philo_bonus.c
+				philo_bonus.c \
+				threads_check_bonus.c
 
 SRCS_BONUS	= ${SRCS}
 
