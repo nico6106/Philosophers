@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 12:19:42 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/09 16:47:22 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/12 18:35:54 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,21 @@ int	ft_error_quit(char *str, int retour)
 void	ft_handle_one_phil(long tid, t_var *var)
 {
 	struct timeval	t;
+	long			pass;
 
 	gettimeofday(&t, NULL);
 	if (pthread_mutex_lock(&var->mutex[tid]) != 0)
 		ft_exit(var);
-	printf("%ld%03ld %ld has taken a fork\n", t.tv_sec,
-		t.tv_usec / 1000, tid + 1);
+	if (pthread_mutex_lock(&var->mutex_start) != 0)
+		ft_exit(var);
+	pass = ft_time_elapsed(var, t.tv_sec, t.tv_usec);
+	printf("%ld %ld has taken a fork\n", pass, tid + 1);
+	if (pthread_mutex_unlock(&var->mutex_start) != 0)
+		ft_exit(var);
 	usleep(var->info.time_die * 1000);
 	if (pthread_mutex_unlock(&var->mutex[tid]) != 0)
 		ft_exit(var);
-	if (pthread_mutex_lock(&var->mutex_dead) != 0)
-		ft_exit(var);
-	var->dead = 1;
-	if (pthread_mutex_unlock(&var->mutex_dead) != 0)
-		ft_exit(var);
-	gettimeofday(&t, NULL);
-	printf("%ld%03ld %ld died\n", t.tv_sec, t.tv_usec / 1000, tid + 1);
+	ft_call_dead(var);
 }
 
 int	ft_handle_thread_creation_error(t_var *var, pthread_t *threads, int i)

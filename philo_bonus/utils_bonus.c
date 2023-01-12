@@ -6,19 +6,17 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/06 11:58:52 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/11 18:59:10 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/12 18:00:01 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Includes/philosophers_bonus.h"
-
 
 int	ft_compute_time(t_var *var)
 {
 	int	diff;
 
 	diff = var->info.time_sleep - var->info.time_eat;
-	//printf("%ld attendre %d ms\n", var->num_philo+1, diff);
 	if (diff <= 0)
 		return (var->info.time_eat - var->info.time_sleep + 2);
 	return (0);

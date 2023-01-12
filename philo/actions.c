@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 11:51:31 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/09 16:48:18 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/12 20:00:06 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_eat(long tid, t_var *var)
 	struct timeval	t;
 
 	gettimeofday(&t, NULL);
-	if (ft_is_finished(var) == 0)
+	if (ft_sub_call_dead(var, tid, t.tv_sec, t.tv_usec) == 0)
 	{
 		if (pthread_mutex_lock(&var->mutex_tab_eat) != 0)
 			ft_exit(var);

@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 12:19:42 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/11 17:17:36 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/12 13:10:15 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	ft_error_quit(char *str, int retour)
 
 int	ft_call_error(t_var *var)
 {
-	//(void) var;
 	ft_end_philo(var);
 	printf("erreur\n");
 	if (var->num_philo == 0)
@@ -35,9 +34,20 @@ int	ft_call_error(t_var *var)
 	exit (var->num_philo);
 }
 
+int	ft_close_sem_error(t_var *var)
+{
+	sem_close(var->sem.ecrire);
+	sem_close(var->sem.run);
+	sem_close(var->sem.s_nb_eat);
+	sem_close(var->sem.take);
+	sem_close(var->sem.admin);
+	sem_close(var->sem.start);
+	sem_close(var->sem.end);
+	return (1);
+}
+
 int	ft_exit(t_var *var)
 {
-	//(void) var;
 	ft_end_philo(var);
 	printf("erreur\n");
 	if (var->num_philo == 0)
@@ -51,71 +61,14 @@ int	ft_handle_one_phil(long tid, t_var *var)
 	long			pass;
 
 	gettimeofday(&t, NULL);
-	if (sem_wait(var->sem.bis_fourchettes) != 0)
+	if (sem_wait(var->sem.fourchettes) != 0)
 		ft_exit(var);
 	pass = ft_time_elapsed(var, t.tv_sec, t.tv_usec);
 	printf("%ld %ld has taken a fork\n", pass, tid + 1);
 	ft_usleep(var->info.time_die * 1, var);
-	if (sem_post(var->sem.bis_fourchettes) != 0)
+	if (sem_post(var->sem.fourchettes) != 0)
 		ft_exit(var);
 	gettimeofday(&t, NULL);
 	pass = ft_time_elapsed(var, t.tv_sec, t.tv_usec);
-	//printf("%ld %ld died\n", pass, tid + 1);
 	return (1);
 }
-
-
-
-/*
-int	ft_handle_thread_creation_error(t_var *var, pthread_t *threads, int i)
-{
-	if (pthread_mutex_lock(&var->mutex_dead) != 0)
-		return (1);
-	var->dead = 1;
-	if (pthread_mutex_unlock(&var->mutex_dead) != 0)
-		return (1);
-	if (pthread_mutex_unlock(&var->mutex_start) != 0)
-		return (1);
-	ft_kill_threads(threads, i);
-	return (ft_error_quit("Error from pthread_create\n", 1));
-}
-*/
-
-/*
-void	ft_exit(t_var *var)
-{
-	int	treat;
-
-	treat = 1;
-	if (pthread_mutex_lock(&var->mutex_dead) != 0)
-		return ;
-	if (var->end_properly == 0)
-		treat = 0;
-	var->end_properly = 0;
-	var->dead = 1;
-	if (pthread_mutex_unlock(&var->mutex_dead) != 0)
-		return ;
-	if (pthread_mutex_lock(&var->mutex_start) != 0)
-		return ;
-	if (treat == 1)
-		ft_error_quit("Error with the lock/unlock function in a philo.\n", 0);
-	if (pthread_mutex_unlock(&var->mutex_start) != 0)
-		return ;
-}
-*/
-
-/*
-void	ft_kill_threads(pthread_t *threads, int n)
-{
-	int	i;
-
-	i = -1;
-	if (n < 1)
-		return ;
-	while (++i <= n)
-	{
-		pthread_join(threads[i], NULL);
-		usleep(1000);
-	}
-}
-*/

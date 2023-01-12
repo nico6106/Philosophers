@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 12:00:04 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/09 16:48:00 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/12 19:59:37 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int		ft_handle_thread_creation_error(t_var *var, pthread_t *threads, int i);
 //utils.c
 int		ft_compute_time(t_var *var);
 long	ft_time_elapsed(t_var *var, long sec, long us);
+long	ft_reduc(t_var *var, long sec, long us);
 int		ft_return_arg(char *argv);
 
 //free_and_finish.c
