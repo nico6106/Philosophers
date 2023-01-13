@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 12:19:42 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/12 13:10:15 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/13 09:06:14 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,8 @@ int	ft_handle_one_phil(long tid, t_var *var)
 		ft_exit(var);
 	pass = ft_time_elapsed(var, t.tv_sec, t.tv_usec);
 	printf("%ld %ld has taken a fork\n", pass, tid + 1);
-	ft_usleep(var->info.time_die * 1, var);
+	ft_usleep(var->info.time_die + 5, var);
 	if (sem_post(var->sem.fourchettes) != 0)
 		ft_exit(var);
-	gettimeofday(&t, NULL);
-	pass = ft_time_elapsed(var, t.tv_sec, t.tv_usec);
 	return (1);
 }

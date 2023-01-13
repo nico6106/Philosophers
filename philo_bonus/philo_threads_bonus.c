@@ -6,7 +6,7 @@
 /*   By: nlesage <nlesage@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:06:20 by nlesage           #+#    #+#             */
-/*   Updated: 2023/01/12 13:07:18 by nlesage          ###   ########.fr       */
+/*   Updated: 2023/01/13 09:23:08 by nlesage          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	*ft_thread_death(void *arg)
 		}
 		if (sem_post(var->sem.hold) != 0)
 			ft_exit(var);
-		usleep(5000);
+		usleep(1000);
 	}
 	return (NULL);
 }
